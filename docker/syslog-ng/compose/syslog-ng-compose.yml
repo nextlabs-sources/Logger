@@ -1,0 +1,17 @@
+version: "3"
+services:
+  syslog-ng:
+    image: balabit/syslog-ng:latest
+    volumes:
+      - "/C/Users/ssethy/Documents/Logger/syslog-ng/configuration/:/etc/syslog-ng/"
+      - "/C/Users/ssethy/Documents/Logger/syslog-ng/CA/cert.d:/etc/syslog-ng/cert.d"
+      - "/C/Users/ssethy/Documents/Logger/syslog-ng/CA/ca.d:/etc/syslog-ng/ca.d"
+    ports:
+      - "6513:6513"
+      - "5432:5432"
+    command: "--no-caps"
+    extra_hosts:
+      - "bukom.nextlabs.com:10.63.0.208"
+networks:
+  sysnet:
+

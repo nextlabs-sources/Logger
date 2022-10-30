@@ -1,0 +1,15 @@
+version: "3"
+services:
+  logger:
+    image: logger:LATEST
+    volumes:
+      - "/d/Bitbucket/logger/docker/logger/shared:/var/opt/nextlabs/logger/shared"
+    ports:
+      - "8447:8443"
+    networks:
+      - lognet
+    extra_hosts:
+      - "bukom.nextlabs.com:10.63.0.208"
+networks:
+   lognet:
+

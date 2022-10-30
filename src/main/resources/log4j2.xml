@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN" monitorInterval="30">
+    <Properties>
+        <Property name="HOST">${env:COMPUTERNAME}</Property>
+        <Property name="LOG_HOME">///D:/Bitbucket/logger/logs</Property>
+        <Property name="LOG_PATTERN">%d %p:%m%n</Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT" follow="true">
+            <PatternLayout pattern="${LOG_PATTERN}"/>
+        </Console>
+        <RollingRandomAccessFile name="FileAppender" fileName="${LOG_HOME}/logger.log" filePattern="${LOG_HOME}/logger.%d{yyyy-MM-dd}.log">
+                   <!--  filePattern="file:///C:/ProgramData/NextLabs/RMS/shared/logs/app.log"-->
+            <PatternLayout pattern="${LOG_PATTERN}"></PatternLayout>
+            <Policies><TimeBasedTriggeringPolicy/></Policies>
+        </RollingRandomAccessFile>
+        <Syslog  name="appLogAppender"  port="6513"
+                 protocol="ssl" appName="application" includeMDC="true" charset="UTF-8"
+                 host="bukom.nextlabs.com" id="App" mdcId="mdc" immediateFlush="true"
+                 facility="local0" newLine="true" reconnectionDelayMillis="20">
+        </Syslog>
+        <Syslog  name="auditLogAppender"  port="6513"
+                 protocol="ssl" appName="audit" includeMDC="true" charset="UTF-8"
+                 host="bukom.nextlabs.com" id="App" mdcId="mdc" immediateFlush="true"
+                 facility="local1" newLine="true" reconnectionDelayMillis="20">
+        </Syslog>
+        <Syslog  name="activityLogAppender"  port="6513"
+                 protocol="ssl" appName="activity" includeMDC="true" charset="UTF-8"
+                 host="bukom.nextlabs.com" id="App" mdcId="mdc" immediateFlush="true"
+                 facility="local2" newLine="true" reconnectionDelayMillis="20">
+        </Syslog>
+
+    </Appenders>
+    <Loggers>
+        <Logger name="com.nextlabs.logger" level="all" additivity="true">
+            <AppenderRef ref="FileAppender" />
+            <AppenderRef ref="ConsoleAppender" />
+        </Logger>
+        <Logger name="com.nextlabs.application" level="all" additivity="true">
+             <AppenderRef ref="appLogAppender" />
+        </Logger>
+        <Logger name="com.nextlabs.audit" level="all" additivity="true">
+            <AppenderRef ref="auditLogAppender" />
+        </Logger>
+        <Logger name="com.nextlabs.activity" level="all" additivity="true">
+            <AppenderRef ref="activityLogAppender" />
+        </Logger>
+        <Root level="all">
+            <AppenderRef ref="FileAppender" />
+        </Root>
+    </Loggers>
+</Configuration>
